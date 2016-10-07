@@ -71,6 +71,7 @@ void avdevice_register_all(void)
     REGISTER_INDEV   (X11GRAB,          x11grab);
     REGISTER_INDEV   (X11GRAB_XCB,      x11grab_xcb);
     REGISTER_OUTDEV  (XV,               xv);
+    REGISTER_OUTDEV  (PIXELFLUT,        pixelflut);
 
     /* external libraries */
     REGISTER_INDEV   (LIBCDIO,          libcdio);

@@ -35,6 +35,7 @@ OBJS-$(CONFIG_OPENAL_INDEV)              += openal-dec.o
 OBJS-$(CONFIG_OPENGL_OUTDEV)             += opengl_enc.o
 OBJS-$(CONFIG_OSS_INDEV)                 += oss_dec.o oss.o
 OBJS-$(CONFIG_OSS_OUTDEV)                += oss_enc.o oss.o
+OBJS-$(CONFIG_PIXELFLUT_OUTDEV)          += pixelflut.o
 OBJS-$(CONFIG_PULSE_INDEV)               += pulse_audio_dec.o \
                                             pulse_audio_common.o timefilter.o
 OBJS-$(CONFIG_PULSE_OUTDEV)              += pulse_audio_enc.o \
