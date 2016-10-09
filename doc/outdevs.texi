@@ -254,6 +254,38 @@ ffmpeg  -i INPUT -f opengl "window title"
 
 OSS (Open Sound System) output device.
 
+@section pixelflut
+
+Pixelflut output device (enables video/images to be sent to a “pixelflut” art
+installation: @url{https://cccgoe.de/wiki/Pixelflut}).
+Currently, this output device is under development
+and thus still slightly picky about output formats.
+It will only accept raw video with abgr pixels.
+
+To enable this output device you need to configure FFmpeg with @code{--enable-outdev=pixelflut}.
+
+@subsection Options
+@table @option
+
+@item host
+The remote host where pixelflut is running.
+
+@item port
+Port on the remote host where pixelflut listens.
+
+@item off_x
+X offset on pixelflut canvas.
+
+@item off_y
+Y offset on pixelflut canvas.
+
+@end table
+
+@subsection Example
+@example
+ffmpeg -i FILE -vcodec rawvideo -pix_fmt bgra -f pixelflut -host HOST -port PORT -
+@end example
+
 @section pulse
 
 PulseAudio output device.
