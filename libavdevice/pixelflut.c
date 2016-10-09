@@ -13,6 +13,7 @@ typedef struct {
 	int sock;  /* socket for connection to pixelflut host */
 	int img_width;
 	int img_height;
+	int use_udp;
 } PixelflutContext;
 
 #define PORT_NUM_LEN_MAX 16
@@ -48,11 +49,12 @@ static int pixelflut_write_header(AVFormatContext *s) {
 	}
 	memset(&hints, 0, sizeof(struct addrinfo));
 	hints.ai_family = AF_UNSPEC;
-	hints.ai_socktype = SOCK_STREAM;
+	hints.ai_socktype = (pixelflut->use_udp ? SOCK_DGRAM : SOCK_STREAM);
 	hints.ai_flags = AI_NUMERICSERV;
 	hints.ai_protocol = 0;
 
-	if (-1 == (pixelflut->sock = socket(AF_INET6, SOCK_STREAM, 0))) {
+	pixelflut->sock = socket(AF_INET6, hints.ai_socktype, 0);
+	if (pixelflut->sock == -1) {
 		av_log(s, AV_LOG_ERROR, "could not create socket\n");
 		return AVERROR(errno);
 	}
@@ -138,6 +140,7 @@ static const AVOption options[] = {
 	{ "port",  "port on the remote host where pixelflut listens", OFFSET(port),  AV_OPT_TYPE_INT, {.i64 = 1234}, 0, 65535, AV_OPT_FLAG_ENCODING_PARAM },
 	{ "off_x", "X offset on pixelflut canvas",                    OFFSET(off_x), AV_OPT_TYPE_INT, {.i64 = 0}, 0, INT_MAX, AV_OPT_FLAG_ENCODING_PARAM },
 	{ "off_y", "Y offset on pixelflut canvas",                    OFFSET(off_y), AV_OPT_TYPE_INT, {.i64 = 0}, 0, INT_MAX, AV_OPT_FLAG_ENCODING_PARAM },
+	{ "use_udp", "if set, use UDP, otherwise TCP",                OFFSET(use_udp), AV_OPT_TYPE_BOOL, {.i64 = 0}, 0, 1, AV_OPT_FLAG_ENCODING_PARAM },
 	{ NULL }
 };
 
